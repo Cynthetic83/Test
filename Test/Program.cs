@@ -147,7 +147,7 @@ namespace Test
                 throw new ArgumentException("Invalid Input");
 
             // make both string of same length, otherwise I'll need to check their length multiple times
-            // and according I'll have to write multiple conditional code.
+            // and accordingly I'll have to write multiple conditional code.
             StringBuilder result = new StringBuilder();
             int i = -1;
             if (a.Length > b.Length)
