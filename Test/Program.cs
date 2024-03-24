@@ -98,6 +98,9 @@ namespace Test
         // What is the minimum number of matches required to find the top 3 players?
         public int MinMatchCount(int participants = 25, int teamSize = 5, int topPlayerNeeded = 3)
         {
+            // input validation
+            if (topPlayerNeeded < 1 || teamSize < 2 || participants <= topPlayerNeeded) return 0;
+
             int minMatchCount = 0;
 
             int availablePlayerCount = participants;
@@ -106,25 +109,31 @@ namespace Test
             while (topPlayerCount != topPlayerNeeded)
             {
 
-                while (availablePlayerCount > teamSize)
+                while (availablePlayerCount >= teamSize)
                 {
                     topPlayerCount++;
                     minMatchCount++;
                     availablePlayerCount--;
                 }
 
-                if (availablePlayerCount <= teamSize)
+                if (topPlayerCount > topPlayerNeeded)
                 {
-                    // if teamsize <= 5 then, they can play 1 match
-                    topPlayerCount++;
-                    minMatchCount++;
+                    // now, we need find 'topPlayerNeeded' within 'topPlayerCount'.
+                    // go for next iteration.
+                    availablePlayerCount = topPlayerCount;
+                    topPlayerCount = 0;
+                }
+                else if (topPlayerCount < topPlayerNeeded)
+                {
+                    // here we've less number of players
+                    // so, we've to play more games among 'availablePlayerCount - topPlayerCount' players
 
-                    if (topPlayerCount > topPlayerNeeded)
+                    availablePlayerCount -= topPlayerCount;
+                    while (availablePlayerCount > 1 && topPlayerCount < topPlayerNeeded)
                     {
-                        // now, we need find 'topPlayerNeeded' within 'topPlayerCount'.
-                        // go for next iteration.
-                        availablePlayerCount = topPlayerCount;
-                        topPlayerCount = 0;
+                        topPlayerCount++;
+                        minMatchCount++;
+                        availablePlayerCount--;
                     }
                 }
             }
